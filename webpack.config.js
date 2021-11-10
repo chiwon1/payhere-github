@@ -4,13 +4,13 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 const config = {
   mode: "development",
-  entry: "./src/index.jsx",
+  entry: "./src/index.js",
   output: {
     path: path.resolve("./dist"),
     filename: "[name].js",
   },
   resolve: {
-    extensions: [".jsx", ".js"],
+    extensions: [".js"],
   },
   module: {
     rules: [
@@ -24,6 +24,10 @@ const config = {
             plugins: ["styled-components"],
           },
         },
+      },
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"],
       },
     ],
   },
