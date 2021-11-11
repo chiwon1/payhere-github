@@ -6,8 +6,8 @@ const config = {
   mode: "development",
   entry: "./src/index.js",
   output: {
-    path: path.resolve("./dist"),
     filename: "[name].js",
+    publicPath: "/",
   },
   resolve: {
     extensions: [".js"],
@@ -34,9 +34,14 @@ const config = {
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebPackPlugin({
-      template: "./src/index.html",
+      template: "src/index.html",
     }),
   ],
+  devtool: "inline-source-map",
+  devServer: {
+    static: path.resolve(__dirname, "dist"),
+    historyApiFallback: true,
+  },
 };
 
 module.exports = config;

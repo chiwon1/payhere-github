@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch } from "react-router";
+import { Switch, Route, Redirect } from "react-router-dom";
 import styled, { ThemeProvider } from "styled-components";
 
 import theme from "../../styles/theme";
@@ -15,7 +15,8 @@ function App() {
         <GlobalStyle />
         <Switch>
           <Route path="/" exact component={Main} />
-          <Route path="/:repository" component={Details} />
+          <Route path="/:owner/:repository/issues" component={Details} />
+          <Redirect to="/" />
         </Switch>
       </ThemeProvider>
     </Wrapper>
