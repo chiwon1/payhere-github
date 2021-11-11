@@ -15,7 +15,7 @@ function App() {
         <GlobalStyle />
         <Switch>
           <Route path="/" exact component={Main} />
-          <Route path="/:id" component={Details} />
+          <Route path="/:repository" component={Details} />
         </Switch>
       </ThemeProvider>
     </Wrapper>
