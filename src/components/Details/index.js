@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useLocation } from "react-router";
-import { setIssues } from "../../redux/reducer";
+import { setIssues } from "../../redux/issueReducer";
 import { useDispatch, useSelector } from "react-redux";
 
 import styled from "styled-components";
