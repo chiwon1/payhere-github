@@ -34,7 +34,8 @@ const config = {
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebPackPlugin({
-      template: "src/index.html",
+      template: "public/index.html",
+      favicon: "./public/favicon.ico",
     }),
   ],
   devtool: "inline-source-map",
