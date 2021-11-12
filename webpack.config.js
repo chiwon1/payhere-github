@@ -4,13 +4,13 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 const config = {
   mode: "development",
-  entry: "./src/index.jsx",
+  entry: "./src/index.js",
   output: {
-    path: path.resolve("./dist"),
     filename: "[name].js",
+    publicPath: "/",
   },
   resolve: {
-    extensions: [".jsx", ".js"],
+    extensions: [".js"],
   },
   module: {
     rules: [
@@ -25,14 +25,24 @@ const config = {
           },
         },
       },
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"],
+      },
     ],
   },
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebPackPlugin({
-      template: "./src/index.html",
+      template: "public/index.html",
+      favicon: "./public/favicon.ico",
     }),
   ],
+  devtool: "inline-source-map",
+  devServer: {
+    static: path.resolve(__dirname, "dist"),
+    historyApiFallback: true,
+  },
 };
 
 module.exports = config;
