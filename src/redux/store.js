@@ -1,7 +1,7 @@
 import logger from "redux-logger";
 import { configureStore } from "@reduxjs/toolkit";
 
-import issueReducer from "./reducer";
+import issueReducer from "./issueReducer";
 
 export default configureStore({
   reducer: {
