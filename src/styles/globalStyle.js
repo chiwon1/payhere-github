@@ -22,6 +22,14 @@ const GlobalStyle = createGlobalStyle`
     text-decoration: none;
   }
 
+  button {
+    cursor: pointer;
+  }
+
+  button:hover {
+    opacity: 0.9;
+  }
+
   input {
     appearance: none;
     outline: none;
