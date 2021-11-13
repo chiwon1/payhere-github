@@ -8,12 +8,14 @@ export const searchGithubIssues = async (githubURL, page) => {
 
     const res = await fetch(GITHUB_URL);
 
-  const GITHUB_URI = `https://api.github.com/repos/${owner}/${repository}/issues`;
+    if (!res.ok) {
+      throw new Error("failed to find repository");
+    }
 
-  const res = await fetch(GITHUB_URI);
-  const data = await res.json();
+    const data = await res.json();
 
-  return data;
+    return data;
   } catch (err) {
+    throw new Error("failed to find repository");
   }
 };
