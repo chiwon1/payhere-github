@@ -17,7 +17,7 @@ function BookmarkButton({ url }) {
   }, []);
 
   const handleOnClick = () => {
-    if (bookmarkCount >= MAX_STORAGE_COUNT) {
+    if (bookmarkCount >= MAX_STORAGE_COUNT && !isRegistered) {
       return console.log("full bookmark storage");
     }
 

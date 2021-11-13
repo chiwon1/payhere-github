@@ -5,20 +5,23 @@ import { MAX_STORAGE_COUNT } from "../../constants";
 import Title from "../Shared/Title";
 
 function Bookmark() {
-  const [urlList, setUrlList] = useState([]);
+  const [bookmarkList, setBookmarkList] = useState([]);
 
   useEffect(() => {
     for (let i = 1; i <= MAX_STORAGE_COUNT; i++) {
       const item = localStorage.getItem(i);
 
-      setUrlList((prev) => [...prev, item]);
+      if (item) {
+        setBookmarkList((prev) => [...prev, item]);
+      }
     }
   }, []);
+  console.l;
 
   return (
     <Wrapper>
       <BookmarkTitle>Bookmark</BookmarkTitle>
-      {urlList.map((item, i) => {
+      {bookmarkList.map((item, i) => {
         const [, , , owner, repository] = item.split("/");
 
         return (
