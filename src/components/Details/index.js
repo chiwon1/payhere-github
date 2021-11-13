@@ -1,34 +1,49 @@
 import React, { useEffect } from "react";
 import { useLocation } from "react-router";
-import { setIssues } from "../../redux/issueReducer";
 import { useDispatch, useSelector } from "react-redux";
 
 import styled from "styled-components";
 import { flexCenter, fullWidthAndHeight } from "../../styles/mixin";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Title from "../Shared/Title";
 import IssuesList from "../IssuesList";
+import Pagination from "../Pagination";
 import BookmarkButton from "../BookmarkButton";
-import { searchGithubIssues } from "../../api/github";
+import { fetchIssues } from "../../store/issue/issueSlice";
 
 function Details() {
   const location = useLocation();
   const dispatch = useDispatch();
 
-  const [, owner, repository, _] = location.pathname.split("/");
-  const { list } = useSelector((state) => state.issues);
-
+  const [, owner, repository] = location.pathname.split("/");
   const repositoryURL = `https://github.com/${owner}/${repository}`;
+
+  const { error } = useSelector((state) => state.issue);
+  const { list, issuesLength } = useSelector((state) => state.issue);
 
   useEffect(() => {
     (async () => {
       if (list.length === 0) {
-        const data = await searchGithubIssues(repositoryURL);
-
-        dispatch(setIssues(data));
+        dispatch(fetchIssues({ url: repositoryURL, page: 1 }));
       }
     })();
   }, []);
+
+  const paginate = async (newPage) => {
+    dispatch(fetchIssues({ url: repositoryURL, page: newPage }));
+  };
+
+  if (error) {
+    const notify = () =>
+      toast.error("잠시 후에 다시 시도하세요.", {
+        autoClose: 3000,
+        closeOnClick: true,
+      });
+
+    notify();
+  }
 
   return (
     <Wrapper>
@@ -37,7 +52,9 @@ function Details() {
         Repository: <a href={repositoryURL}>{repository}</a>
         <BookmarkButton url={repositoryURL} />
       </RepositoryTitle>
-      <IssuesList list={list} />
+      <IssuesList issues={list} />
+      <Pagination totalPosts={issuesLength} paginate={paginate} />
+      <ToastContainer />
     </Wrapper>
   );
 }

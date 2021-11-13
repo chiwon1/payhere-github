@@ -6,8 +6,7 @@ import styled from "styled-components";
 import { flexCenter, fullWidthAndHeight } from "../../styles/mixin";
 
 import Button from "../Shared/Button";
-import { setIssues } from "../../redux/issueReducer";
-import { searchGithubIssues } from "../../api/github";
+import { fetchIssues } from "../../store/issue/issueSlice";
 
 function SearchBar() {
   const history = useHistory();
@@ -18,15 +17,9 @@ function SearchBar() {
   const handleClick = async (event) => {
     event.preventDefault();
 
-    const data = await searchGithubIssues(inputURL);
+    dispatch(fetchIssues({ url: inputURL, page: 1 }));
+    const [_, owner, repository] = new URL(inputURL).pathname.split("/");
 
-    if (data.message === "Not Found") {
-      setInputURL("");
-    }
-
-    const [, , , owner, repository] = inputURL.split("/");
-
-    dispatch(setIssues(data));
     history.push(`/${owner}/${repository}/issues`);
   };
 
@@ -35,6 +28,7 @@ function SearchBar() {
       <label htmlFor="search">
         <Input
           id="search"
+          type="url"
           value={inputURL}
           autoComplete="off"
           placeholder="Enter Repository URL"
