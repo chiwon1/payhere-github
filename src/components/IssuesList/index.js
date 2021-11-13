@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 
-import { MAX_STORAGE_COUNT } from "../../constants";
+import { ISSUES_PER_PAGE } from "../../constants";
 
-function IssuesList({ list }) {
+function IssuesList({ issues }) {
   return (
-    <>
-      {list.map((issue, index) => {
-        if (index > MAX_STORAGE_COUNT) return;
+    <Wrapper>
+      {issues.map((issue, index) => {
+        if (index > ISSUES_PER_PAGE) return;
 
         return (
           <IssueWrapper key={issue.number} href={issue.html_url}>
@@ -15,12 +15,18 @@ function IssuesList({ list }) {
           </IssueWrapper>
         );
       })}
-    </>
+    </Wrapper>
   );
 }
 
+const Wrapper = styled.div`
+  height: auto;
+`;
+
 const IssueWrapper = styled.a`
+  display: flex;
   flex-direction: column;
+  justify-content: center;
   padding: 10px 20px;
   margin-bottom: 0.8rem;
   font-size: 1.1rem;
@@ -30,7 +36,8 @@ const IssueWrapper = styled.a`
   cursor: pointer;
 
   &:hover {
-    opacity: 0.9;
+    background-color: ${({ theme }) => theme.color.lightOrange};
+    background-color: #ede0d4;
   }
 `;
 

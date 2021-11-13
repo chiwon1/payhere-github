@@ -6,31 +6,36 @@ import { MAX_STORAGE_COUNT } from "../../constants";
 
 function BookmarkButton({ url }) {
   const [isRegistered, setIsRegistered] = useState(false);
-  const bookmarkCount = localStorage.length;
 
   useEffect(() => {
-    for (let i = 1; i <= bookmarkCount; i++) {
-      if (localStorage.getItem(i) === url) {
-        setIsRegistered(true);
-      }
+    const bookmarkItems = Object.values(localStorage);
+
+    if (bookmarkItems.includes(url)) {
+      setIsRegistered(true);
     }
   }, []);
 
   const handleOnClick = () => {
-    if (bookmarkCount >= MAX_STORAGE_COUNT && !isRegistered) {
+    if (localStorage.length >= MAX_STORAGE_COUNT && !isRegistered) {
       return console.log("full bookmark storage");
     }
 
     setIsRegistered((prev) => !prev);
 
     if (isRegistered) {
-      for (let i = 1; i <= bookmarkCount; i++) {
+      for (let i = 1; i <= MAX_STORAGE_COUNT; i++) {
         if (localStorage.getItem(i) === url) {
           localStorage.removeItem(i);
         }
       }
     } else {
-      localStorage.setItem(bookmarkCount + 1, url);
+      for (let i = 1; i <= MAX_STORAGE_COUNT; i++) {
+        const item = localStorage.getItem(i);
+
+        if (!item) {
+          return localStorage.setItem(i, url);
+        }
+      }
     }
   };
 

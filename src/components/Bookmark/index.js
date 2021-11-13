@@ -16,17 +16,17 @@ function Bookmark() {
       }
     }
   }, []);
-  console.l;
 
   return (
     <Wrapper>
       <BookmarkTitle>Bookmark</BookmarkTitle>
-      {bookmarkList.map((item, i) => {
-        const [, , , owner, repository] = item.split("/");
+      {bookmarkList.length === 0 && <span>Save webpages to read later</span>}
+      {bookmarkList.map((url, i) => {
+        const [_, owner, repository] = new URL(url).pathname.split("/");
 
         return (
           <a key={i} href={`${window.location.origin}/${owner}/${repository}/issues`}>
-            Issues in {owner}'s {repository} repository
+            - Issues in {owner}'s {repository} repository
           </a>
         );
       })}
@@ -46,6 +46,11 @@ const Wrapper = styled.div`
     margin-bottom: 1rem;
     font-size: 1.2rem;
     color: ${({ theme }) => theme.color.brown};
+  }
+
+  span {
+    font-size: 1.3rem;
+    color: ${({ theme }) => theme.color.red};
   }
 `;
 
