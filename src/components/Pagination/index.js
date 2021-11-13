@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 
 import { flexCenter } from "../../styles/mixin";
 import { ISSUES_PER_PAGE, PAGES_TO_SHOW } from "../../constants";
+import { FaAngleDoubleLeft, FaAngleDoubleRight } from "react-icons/fa";
 
 const Pagination = ({ totalPosts, paginate }) => {
   const { page, issuesLength } = useSelector((state) => state.issue);
@@ -21,13 +22,23 @@ const Pagination = ({ totalPosts, paginate }) => {
     }
   }
 
+  const moveToEndPage = (endPage, direction) => {
+    const icon = direction === "Left" ? <FaAngleDoubleLeft /> : <FaAngleDoubleRight />;
+
+    return <PaginationArrow onClick={() => paginate(endPage)}>{icon}</PaginationArrow>;
+  };
+
   return (
     <PagesWrapper>
+      {page > 3 ? moveToEndPage(1, "Left") : ""}
       {pageNumbers.map((number) => (
         <PageNumber key={number} onClick={() => paginate(number)}>
           {number === page ? <span>{number}</span> : number}
         </PageNumber>
       ))}
+      {issuesLength / ISSUES_PER_PAGE > page + 5
+        ? moveToEndPage(page + PAGES_TO_SHOW, "Right")
+        : ""}
     </PagesWrapper>
   );
 };
