@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import styled from "styled-components";
 import { flexCenter, fullWidthAndHeight } from "../../styles/mixin";
@@ -13,19 +13,22 @@ function SearchBar({ history }) {
   const dispatch = useDispatch();
 
   const [inputURL, setInputURL] = useState("");
+  const { error } = useSelector((state) => state.issue);
 
   const handleClick = async (event) => {
     event.preventDefault();
 
-    try {
-      const [_, owner, repository] = new URL(inputURL).pathname.split("/");
+    dispatch(fetchIssues({ url: inputURL, page: 1 }));
 
-      dispatch(fetchIssues({ url: inputURL, page: 1 }));
-      history.push(`/${owner}/${repository}/issues`);
-    } catch {
-      return notifyError("올바른 저장소 주소를 입력해주세요");
-    }
+    const [_, owner, repository] = new URL(inputURL).pathname.split("/");
+    return history.push(`/${owner}/${repository}/issues`);
   };
+
+  useEffect(() => {
+    if (error) {
+      notifyError("올바른 저장소 주소를 입력해주세요");
+    }
+  }, [error]);
 
   return (
     <Wrapper>

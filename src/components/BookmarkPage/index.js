@@ -1,35 +1,35 @@
 import React, { useEffect } from "react";
-import { useLocation } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
-
 import styled from "styled-components";
-import { flexCenter } from "../../styles/mixin";
-import { ToastContainer } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
 
 import Title from "../Shared/Title";
 import Button from "../Shared/Button";
-import IssuesList from "../IssuesList";
 import Pagination from "../Pagination";
-import BookmarkButton from "../BookmarkButton";
+import IssuesList from "../IssuesList";
 
-import { notifyError } from "../Notification";
-import { fetchIssues, resetState } from "../../store/issue/issuesSlice";
+import { STORAGE_KEY_BOOKMARK } from "../../constants";
+import { fetchBookmarkIssues, resetState } from "../../store/issue/issuesSlice";
 
-function DetailsPage({ history }) {
-  const location = useLocation();
+function BookmarkPage({ history }) {
   const dispatch = useDispatch();
-
-  const [, owner, repository] = location.pathname.split("/");
-  const repositoryURL = `https://github.com/${owner}/${repository}`;
 
   const { error } = useSelector((state) => state.issue);
   const { list, issuesLength } = useSelector((state) => state.issue);
 
+  const urlList = JSON.parse(localStorage.getItem(STORAGE_KEY_BOOKMARK));
+  const repositoryList = [];
+
+  for (let i = 0; i < urlList.length; i++) {
+    const [_, owner, repository] = new URL(urlList[i]).pathname.split("/");
+
+    repositoryList.push(`repo:${owner}/${repository}`);
+  }
+
+  const repositoryUrlQuery = repositoryList.join("+");
+
   useEffect(() => {
     (async () => {
-      if (list.length === 0) {
-        dispatch(fetchIssues({ url: repositoryURL, page: 1 }));
-      }
+      dispatch(fetchBookmarkIssues({ url: repositoryUrlQuery, page: 1 }));
     })();
   }, []);
 
@@ -40,17 +40,13 @@ function DetailsPage({ history }) {
   }, [error]);
 
   const paginate = async (newPage) => {
-    dispatch(fetchIssues({ url: repositoryURL, page: newPage }));
+    dispatch(fetchBookmarkIssues({ url: repositoryUrlQuery, page: newPage }));
   };
 
   return (
     <Wrapper>
-      <DetailsTitle>Issues</DetailsTitle>
-      <RepositoryTitle>
-        Repository: <a href={repositoryURL}>{repository}</a>
-        <BookmarkButton url={repositoryURL} />
-      </RepositoryTitle>
-      <IssuesList issues={list} />
+      <DetailsTitle>Issues 모아보기</DetailsTitle>
+      <IssuesList issues={list} showRepo />
       <Pagination totalPosts={issuesLength} paginate={paginate} />
       <HomeButton
         handleClick={() => {
@@ -59,14 +55,11 @@ function DetailsPage({ history }) {
         }}>
         <a>Home</a>
       </HomeButton>
-      <ToastContainer />
     </Wrapper>
   );
 }
 
 const Wrapper = styled.div`
-  ${flexCenter}
-
   flex-direction: column;
   position: relative;
 
@@ -112,4 +105,4 @@ const HomeButton = styled(Button)`
   border-radius: 5px;
 `;
 
-export default DetailsPage;
+export default BookmarkPage;
