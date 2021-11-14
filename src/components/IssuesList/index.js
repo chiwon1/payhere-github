@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { ISSUES_PER_PAGE } from "../../constants";
 
-function IssuesList({ issues }) {
+function IssuesList({ issues, showRepo }) {
   return (
     <Wrapper>
       {issues.map((issue, index) => {
@@ -11,10 +11,12 @@ function IssuesList({ issues }) {
 
         return (
           <IssueWrapper key={issue.number} href={issue.html_url}>
+            {showRepo && <span>repo: {issue.repository_url.split("github.com/repos/")[1]}</span>}
             <span>{issue.title}</span>
           </IssueWrapper>
         );
       })}
+      {!issues.length && <span>해당하는 저장소에 등록된 이슈가 없습니다.</span>}
     </Wrapper>
   );
 }
@@ -27,7 +29,7 @@ const IssueWrapper = styled.a`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 10px 15px;
+  padding: 12px 15px;
   margin-bottom: 0.8rem;
   font-size: 1.1rem;
   color: ${({ theme }) => theme.color.brown};
@@ -35,15 +37,21 @@ const IssueWrapper = styled.a`
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
   cursor: pointer;
 
-  &:hover {
-    background-color: ${({ theme }) => theme.color.lightOrange};
-    background-color: #ede0d4;
-  }
-
   span {
+    display: block;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    color: ${({ theme }) => theme.color.brown};
+
+    &:nth-child(2) {
+      margin-top: 0.5rem;
+    }
+  }
+
+  &:hover {
+    background-color: ${({ theme }) => theme.color.lightOrange};
+    background-color: #ede0d4;
   }
 `;
 

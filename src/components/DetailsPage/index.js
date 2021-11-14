@@ -13,7 +13,7 @@ import Pagination from "../Pagination";
 import BookmarkButton from "../BookmarkButton";
 
 import { notifyError } from "../Notification";
-import { fetchIssues } from "../../store/issue/issuesSlice";
+import { fetchIssues, resetState } from "../../store/issue/issuesSlice";
 
 function DetailsPage({ history }) {
   const location = useLocation();
@@ -33,13 +33,15 @@ function DetailsPage({ history }) {
     })();
   }, []);
 
+  useEffect(() => {
+    if (error) {
+      notifyError("해당하는 저장소가 없거나, 에러가 발생하였습니다. 잠시 후에 다시 시도하세요.");
+    }
+  }, [error]);
+
   const paginate = async (newPage) => {
     dispatch(fetchIssues({ url: repositoryURL, page: newPage }));
   };
-
-  if (error) {
-    notifyError("잠시 후에 다시 시도하세요.");
-  }
 
   return (
     <Wrapper>
@@ -50,7 +52,11 @@ function DetailsPage({ history }) {
       </RepositoryTitle>
       <IssuesList issues={list} />
       <Pagination totalPosts={issuesLength} paginate={paginate} />
-      <HomeButton handleClick={() => history.push("/")}>
+      <HomeButton
+        handleClick={() => {
+          history.push("/");
+          dispatch(resetState());
+        }}>
         <a>Home</a>
       </HomeButton>
       <ToastContainer />
