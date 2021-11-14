@@ -27,7 +27,7 @@ const IssueWrapper = styled.a`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 10px 20px;
+  padding: 10px 15px;
   margin-bottom: 0.8rem;
   font-size: 1.1rem;
   color: ${({ theme }) => theme.color.brown};
@@ -38,6 +38,12 @@ const IssueWrapper = styled.a`
   &:hover {
     background-color: ${({ theme }) => theme.color.lightOrange};
     background-color: #ede0d4;
+  }
+
+  span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 `;
 

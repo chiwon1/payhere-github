@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 import Button from "../Shared/Button";
 import { MAX_STORAGE_COUNT } from "../../constants";
+import { notifyError } from "../Notification";
 
 function BookmarkButton({ url }) {
   const [isRegistered, setIsRegistered] = useState(false);
@@ -17,7 +18,7 @@ function BookmarkButton({ url }) {
 
   const handleOnClick = () => {
     if (localStorage.length >= MAX_STORAGE_COUNT && !isRegistered) {
-      return console.log("full bookmark storage");
+      return notifyError("4개까지 저장할 수 있습니다.");
     }
 
     setIsRegistered((prev) => !prev);

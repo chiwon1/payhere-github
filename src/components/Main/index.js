@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { flexCenter, fullWidthAndHeight } from "../../styles/mixin";
+import { flexCenter } from "../../styles/mixin";
 
 import Title from "../Shared/Title";
 import SearchBar from "../SearchBar";
@@ -18,8 +18,6 @@ function Main() {
 
 const Wrapper = styled.div`
   ${flexCenter}
-  ${fullWidthAndHeight}
-
   flex-direction: column;
 
   > * {

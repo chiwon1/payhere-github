@@ -1,21 +1,24 @@
 import React, { useEffect } from "react";
-import { useLocation } from "react-router";
+import { useHistory, useLocation } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 
 import styled from "styled-components";
-import { flexCenter, fullWidthAndHeight } from "../../styles/mixin";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { flexCenter } from "../../styles/mixin";
+import { ToastContainer } from "react-toastify";
 
 import Title from "../Shared/Title";
+import Button from "../Shared/Button";
 import IssuesList from "../IssuesList";
 import Pagination from "../Pagination";
 import BookmarkButton from "../BookmarkButton";
+
+import { notifyError } from "../Notification";
 import { fetchIssues } from "../../store/issue/issueSlice";
 
 function Details() {
   const location = useLocation();
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const [, owner, repository] = location.pathname.split("/");
   const repositoryURL = `https://github.com/${owner}/${repository}`;
@@ -36,13 +39,7 @@ function Details() {
   };
 
   if (error) {
-    const notify = () =>
-      toast.error("잠시 후에 다시 시도하세요.", {
-        autoClose: 3000,
-        closeOnClick: true,
-      });
-
-    notify();
+    notifyError("잠시 후에 다시 시도하세요.");
   }
 
   return (
@@ -54,6 +51,9 @@ function Details() {
       </RepositoryTitle>
       <IssuesList issues={list} />
       <Pagination totalPosts={issuesLength} paginate={paginate} />
+      <HomeButton handleClick={() => history.push("/")}>
+        <a>Home</a>
+      </HomeButton>
       <ToastContainer />
     </Wrapper>
   );
@@ -61,9 +61,9 @@ function Details() {
 
 const Wrapper = styled.div`
   ${flexCenter}
-  ${fullWidthAndHeight}
 
   flex-direction: column;
+  position: relative;
 
   > * {
     width: 600px;
@@ -71,8 +71,9 @@ const Wrapper = styled.div`
 `;
 
 const DetailsTitle = styled(Title)`
-  fontsize: 90%;
+  position: relative;
   margin: 0 0 1.6rem;
+  fontsize: 90%;
 `;
 
 const RepositoryTitle = styled.h3`
@@ -91,6 +92,19 @@ const RepositoryTitle = styled.h3`
     padding-bottom: 0.3rem;
     border-bottom: 2px solid ${({ theme }) => theme.color.brown};
   }
+`;
+
+const HomeButton = styled(Button)`
+  position: absolute;
+  top: 1rem;
+  right: 0;
+  width: auto;
+  height: 30px;
+  padding: 8px 12px;
+
+  color: ${({ theme }) => theme.color.white};
+  background-color: ${({ theme }) => theme.color.darkgrey};
+  border-radius: 5px;
 `;
 
 export default Details;
