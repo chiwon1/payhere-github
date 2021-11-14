@@ -1,43 +1,48 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 import Button from "../Shared/Button";
-import { MAX_STORAGE_COUNT } from "../../constants";
+import { MAX_STORAGE_COUNT, STORAGE_KEY_BOOKMARK } from "../../constants";
 import { notifyError } from "../Notification";
 
 function BookmarkButton({ url }) {
   const [isRegistered, setIsRegistered] = useState(false);
+  const { error } = useSelector((state) => state.issue);
+
+  const bookmarkList = JSON.parse(localStorage.getItem(STORAGE_KEY_BOOKMARK));
 
   useEffect(() => {
-    const bookmarkItems = Object.values(localStorage);
-
-    if (bookmarkItems.includes(url)) {
+    if (bookmarkList?.includes(url)) {
       setIsRegistered(true);
     }
   }, []);
 
   const handleOnClick = () => {
-    if (localStorage.length >= MAX_STORAGE_COUNT && !isRegistered) {
+    if (error) {
+      return notifyError("해당 저장소는 저장할 수 없습니다.");
+    }
+
+    if (bookmarkList?.length >= MAX_STORAGE_COUNT && !isRegistered) {
       return notifyError("4개까지 저장할 수 있습니다.");
     }
 
     setIsRegistered((prev) => !prev);
 
     if (isRegistered) {
-      for (let i = 1; i <= MAX_STORAGE_COUNT; i++) {
-        if (localStorage.getItem(i) === url) {
-          localStorage.removeItem(i);
-        }
-      }
-    } else {
-      for (let i = 1; i <= MAX_STORAGE_COUNT; i++) {
-        const item = localStorage.getItem(i);
+      const newList = bookmarkList.filter((item) => item !== url);
 
-        if (!item) {
-          return localStorage.setItem(i, url);
-        }
-      }
+      return localStorage.setItem(STORAGE_KEY_BOOKMARK, JSON.stringify(newList));
     }
+
+    if (bookmarkList) {
+      const newList = [...bookmarkList, url];
+
+      return localStorage.setItem(STORAGE_KEY_BOOKMARK, JSON.stringify(newList));
+    }
+
+    const newList = [url];
+    localStorage.setItem(STORAGE_KEY_BOOKMARK, JSON.stringify(newList));
   };
 
   return (

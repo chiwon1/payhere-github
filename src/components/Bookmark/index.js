@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { MAX_STORAGE_COUNT } from "../../constants";
+import { STORAGE_KEY_BOOKMARK } from "../../constants";
 
 import Title from "../Shared/Title";
 import Button from "../Shared/Button";
@@ -9,12 +9,10 @@ function Bookmark({ history }) {
   const [bookmarkList, setBookmarkList] = useState([]);
 
   useEffect(() => {
-    for (let i = 1; i <= MAX_STORAGE_COUNT; i++) {
-      const item = localStorage.getItem(i);
+    const item = localStorage.getItem(STORAGE_KEY_BOOKMARK);
 
-      if (item) {
-        setBookmarkList((prev) => [...prev, item]);
-      }
+    if (item) {
+      setBookmarkList(JSON.parse(item));
     }
   }, []);
 
