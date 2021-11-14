@@ -7,6 +7,8 @@ import { flexCenter, fullWidthAndHeight } from "../../styles/mixin";
 
 import Button from "../Shared/Button";
 import { fetchIssues } from "../../store/issue/issueSlice";
+import { notifyError } from "../Notification";
+import { ToastContainer } from "react-toastify";
 
 function SearchBar() {
   const history = useHistory();
@@ -17,10 +19,14 @@ function SearchBar() {
   const handleClick = async (event) => {
     event.preventDefault();
 
-    dispatch(fetchIssues({ url: inputURL, page: 1 }));
-    const [_, owner, repository] = new URL(inputURL).pathname.split("/");
+    try {
+      const [_, owner, repository] = new URL(inputURL).pathname.split("/");
 
-    history.push(`/${owner}/${repository}/issues`);
+      dispatch(fetchIssues({ url: inputURL, page: 1 }));
+      history.push(`/${owner}/${repository}/issues`);
+    } catch {
+      return notifyError("올바른 저장소 주소를 입력해주세요");
+    }
   };
 
   return (
@@ -37,6 +43,7 @@ function SearchBar() {
         />
       </label>
       <SearchButton handleClick={handleClick}>Search</SearchButton>
+      <ToastContainer />
     </Wrapper>
   );
 }

@@ -7,6 +7,7 @@ import GlobalStyle from "../../styles/globalStyle";
 
 import Main from "../Main";
 import Details from "../Details";
+import { flexCenter } from "../../styles/mixin";
 
 function App() {
   return (
@@ -24,6 +25,8 @@ function App() {
 }
 
 const Wrapper = styled.div`
+  ${flexCenter};
+
   width: 100vw;
   height: 100vh;
 `;
