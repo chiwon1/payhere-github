@@ -7,7 +7,7 @@ export const fetchIssues = createAsyncThunk("issue/fetchIssues", async ({ url, p
   return { ...res, page };
 });
 
-export const issueSlice = createSlice({
+export const issuesSlice = createSlice({
   name: "issue",
   initialState: {
     page: 1,
@@ -32,4 +32,4 @@ export const issueSlice = createSlice({
   },
 });
 
-export default issueSlice.reducer;
+export default issuesSlice.reducer;

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useHistory, useLocation } from "react-router";
+import { useLocation } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 
 import styled from "styled-components";
@@ -13,12 +13,11 @@ import Pagination from "../Pagination";
 import BookmarkButton from "../BookmarkButton";
 
 import { notifyError } from "../Notification";
-import { fetchIssues } from "../../store/issue/issueSlice";
+import { fetchIssues } from "../../store/issue/issuesSlice";
 
-function Details() {
+function DetailsPage({ history }) {
   const location = useLocation();
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const [, owner, repository] = location.pathname.split("/");
   const repositoryURL = `https://github.com/${owner}/${repository}`;
@@ -107,4 +106,4 @@ const HomeButton = styled(Button)`
   border-radius: 5px;
 `;
 
-export default Details;
+export default DetailsPage;

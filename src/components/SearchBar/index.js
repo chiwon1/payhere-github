@@ -1,17 +1,15 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router";
 import { useDispatch } from "react-redux";
 
 import styled from "styled-components";
 import { flexCenter, fullWidthAndHeight } from "../../styles/mixin";
 
 import Button from "../Shared/Button";
-import { fetchIssues } from "../../store/issue/issueSlice";
+import { fetchIssues } from "../../store/issue/issuesSlice";
 import { notifyError } from "../Notification";
 import { ToastContainer } from "react-toastify";
 
-function SearchBar() {
-  const history = useHistory();
+function SearchBar({ history }) {
   const dispatch = useDispatch();
 
   const [inputURL, setInputURL] = useState("");

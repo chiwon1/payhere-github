@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import issueReducer from "./issue/issueSlice";
+import issuesReducer from "./issue/issuesSlice";
 
 export default configureStore({
   reducer: {
-    issue: issueReducer,
+    issue: issuesReducer,
   },
 });

@@ -5,8 +5,9 @@ import styled, { ThemeProvider } from "styled-components";
 import theme from "../../styles/theme";
 import GlobalStyle from "../../styles/globalStyle";
 
-import Main from "../Main";
-import Details from "../Details";
+import MainPage from "../MainPage";
+import DetailsPage from "../DetailsPage";
+import BookmarkPage from "../BookmarkPage";
 import { flexCenter } from "../../styles/mixin";
 
 function App() {
@@ -15,8 +16,9 @@ function App() {
       <ThemeProvider theme={theme}>
         <GlobalStyle />
         <Switch>
-          <Route path="/" exact component={Main} />
-          <Route path="/:owner/:repository/issues" component={Details} />
+          <Route path="/" exact component={MainPage} />
+          <Route path="/issues" component={BookmarkPage} />
+          <Route path="/:owner/:repository/issues" component={DetailsPage} />
           <Redirect to="/" />
         </Switch>
       </ThemeProvider>

@@ -3,8 +3,9 @@ import styled from "styled-components";
 import { MAX_STORAGE_COUNT } from "../../constants";
 
 import Title from "../Shared/Title";
+import Button from "../Shared/Button";
 
-function Bookmark() {
+function Bookmark({ history }) {
   const [bookmarkList, setBookmarkList] = useState([]);
 
   useEffect(() => {
@@ -30,11 +31,17 @@ function Bookmark() {
           </a>
         );
       })}
+      {bookmarkList && (
+        <ViewAllButton handleClick={() => history.push("/issues")}>
+          <span>북마크 이슈 모아보기</span>
+        </ViewAllButton>
+      )}
     </Wrapper>
   );
 }
 
 const Wrapper = styled.div`
+  position: relative;
   height: 200px;
   padding: 10px;
   margin-top: 2rem;
@@ -57,6 +64,22 @@ const Wrapper = styled.div`
 const BookmarkTitle = styled(Title)`
   font-size: 1.5rem;
   margin-bottom: 1rem;
+`;
+
+const ViewAllButton = styled(Button)`
+  position: absolute;
+  top: 0.8rem;
+  right: 0.8rem;
+  width: auto;
+  height: 30px;
+  padding: 8px 12px;
+  border-radius: 5px;
+  background-color: ${({ theme }) => theme.color.darkgrey};
+
+  span {
+    font-size: 0.9rem;
+    color: ${({ theme }) => theme.color.white};
+  }
 `;
 
 export default Bookmark;

@@ -6,12 +6,12 @@ import Title from "../Shared/Title";
 import SearchBar from "../SearchBar";
 import Bookmark from "../Bookmark";
 
-function Main() {
+function MainPage({ history }) {
   return (
     <Wrapper>
       <MainTitle>Github Issues</MainTitle>
-      <SearchBar />
-      <Bookmark />
+      <SearchBar history={history} />
+      <Bookmark history={history} />
     </Wrapper>
   );
 }
@@ -29,4 +29,4 @@ const MainTitle = styled(Title)`
   margin: 0 0 1.6rem;
 `;
 
-export default Main;
+export default MainPage;
