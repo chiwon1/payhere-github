@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 
 import styled from "styled-components";
 import { flexCenter, fullWidthAndHeight } from "../../styles/mixin";
@@ -8,27 +8,30 @@ import Button from "../Shared/Button";
 import { fetchIssues } from "../../store/issue/issuesSlice";
 import { notifyError } from "../Notification";
 import { ToastContainer } from "react-toastify";
+import { isValidGithubUrl } from "../../utils";
 
 function SearchBar({ history }) {
   const dispatch = useDispatch();
 
   const [inputURL, setInputURL] = useState("");
-  const { error } = useSelector((state) => state.issue);
 
   const handleClick = async (event) => {
     event.preventDefault();
 
+    if (!isValidGithubUrl(inputURL)) {
+      return notifyError("올바른 저장소 주소를 입력해주세요");
+    }
+
     dispatch(fetchIssues({ url: inputURL, page: 1 }));
 
-    const [_, owner, repository] = new URL(inputURL).pathname.split("/");
-    return history.push(`/${owner}/${repository}/issues`);
-  };
+    try {
+      const [_, owner, repository] = new URL(inputURL).pathname.split("/");
 
-  useEffect(() => {
-    if (error) {
+      return history.push(`/${owner}/${repository}/issues`);
+    } catch (err) {
       notifyError("올바른 저장소 주소를 입력해주세요");
     }
-  }, [error]);
+  };
 
   return (
     <Wrapper>
