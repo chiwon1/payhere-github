@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { useLocation } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 
 import styled from "styled-components";
@@ -15,8 +14,7 @@ import BookmarkButton from "../BookmarkButton";
 import { notifyError } from "../Notification";
 import { fetchIssues, resetState } from "../../store/issue/issuesSlice";
 
-function DetailsPage({ history }) {
-  const location = useLocation();
+function DetailsPage({ history, location }) {
   const dispatch = useDispatch();
 
   const [, owner, repository] = location.pathname.split("/");

@@ -36,9 +36,7 @@ const Pagination = ({ totalPosts, paginate }) => {
           {number === page ? <span>{number}</span> : number}
         </PageNumber>
       ))}
-      {issuesLength / ISSUES_PER_PAGE > page + 5
-        ? moveToEndPage(page + PAGES_TO_SHOW, "Right")
-        : ""}
+      {issuesLength / ISSUES_PER_PAGE > page + 5 ? moveToEndPage(page + 1, "Right") : ""}
     </PagesWrapper>
   );
 };
