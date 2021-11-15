@@ -16,7 +16,7 @@ function IssuesList({ issues, showRepo }) {
           </IssueWrapper>
         );
       })}
-      {!issues.length && <span>해당하는 저장소에 등록된 이슈가 없습니다.</span>}
+      {!issues.length && <span>저장소가 없거나, 해당하는 저장소에 등록된 이슈가 없습니다.</span>}
     </Wrapper>
   );
 }

@@ -6,23 +6,27 @@ import Title from "../Shared/Title";
 import Button from "../Shared/Button";
 import Pagination from "../Pagination";
 import IssuesList from "../IssuesList";
+import { notifyError } from "../Notification";
 
 import { STORAGE_KEY_BOOKMARK } from "../../constants";
 import { fetchBookmarkIssues, resetState } from "../../store/issue/issuesSlice";
+import { ToastContainer } from "react-toastify";
 
 function BookmarkPage({ history }) {
   const dispatch = useDispatch();
-
-  const { error } = useSelector((state) => state.issue);
   const { list, issuesLength } = useSelector((state) => state.issue);
 
   const urlList = JSON.parse(localStorage.getItem(STORAGE_KEY_BOOKMARK));
   const repositoryList = [];
 
-  for (let i = 0; i < urlList.length; i++) {
-    const [_, owner, repository] = new URL(urlList[i]).pathname.split("/");
+  for (let i = 0; i < urlList?.length; i++) {
+    try {
+      const [_, owner, repository] = new URL(urlList[i]).pathname.split("/");
 
-    repositoryList.push(`repo:${owner}/${repository}`);
+      repositoryList.push(`repo:${owner}/${repository}`);
+    } catch {
+      notifyError("해당하는 저장소가 없거나, 에러가 발생하였습니다. 잠시 후에 다시 시도하세요.");
+    }
   }
 
   const repositoryUrlQuery = repositoryList.join("+");
@@ -32,12 +36,6 @@ function BookmarkPage({ history }) {
       dispatch(fetchBookmarkIssues({ url: repositoryUrlQuery, page: 1 }));
     })();
   }, []);
-
-  useEffect(() => {
-    if (error) {
-      notifyError("해당하는 저장소가 없거나, 에러가 발생하였습니다. 잠시 후에 다시 시도하세요.");
-    }
-  }, [error]);
 
   const paginate = async (newPage) => {
     dispatch(fetchBookmarkIssues({ url: repositoryUrlQuery, page: newPage }));
@@ -55,6 +53,7 @@ function BookmarkPage({ history }) {
         }}>
         <a>Home</a>
       </HomeButton>
+      <ToastContainer />
     </Wrapper>
   );
 }

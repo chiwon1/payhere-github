@@ -1,5 +1,9 @@
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { injectStyle } from "react-toastify/dist/inject-style";
+
+if (typeof window !== "undefined") {
+  injectStyle();
+}
 
 export const notifyError = (message) => {
   return toast.error(message, {
