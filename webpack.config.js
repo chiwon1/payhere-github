@@ -1,10 +1,13 @@
 const path = require("path");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 const config = {
   mode: "development",
-  entry: "./src/index.js",
+  entry: {
+    app: "./src/index.js",
+  },
   output: {
     filename: "[name].js",
     publicPath: "/",
@@ -37,6 +40,7 @@ const config = {
       template: "public/index.html",
       favicon: "./public/favicon.ico",
     }),
+    new BundleAnalyzerPlugin(),
   ],
   devtool: "inline-source-map",
   devServer: {

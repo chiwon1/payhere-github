@@ -2,21 +2,22 @@
   "name": "payhere-project",
   "version": "1.0.0",
   "author": "gohyuk528@gmail.com",
+  "repository": "https://github.com/Deea222/payhere-github",
   "description": "A simple web showing repository issues using github API",
   "scripts": {
     "start": "webpack serve",
     "build": "webpack",
-    "test": "jest --watch"
+    "test": "jest"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
+    "react-loader-spinner": "^4.0.0",
     "react-redux": "^7.2.6",
     "react-router-dom": "^5.3.0",
     "react-toastify": "^8.1.0",
-    "redux-persist": "^6.0.0",
     "reseter.css": "^2.0.0",
     "styled-components": "^5.3.3"
   },
@@ -43,6 +44,7 @@
     "redux-mock-store": "^1.5.4",
     "style-loader": "^3.3.1",
     "webpack": "^5.63.0",
+    "webpack-bundle-analyzer": "^4.5.0",
     "webpack-cli": "^4.9.1",
     "webpack-dev-server": "^4.4.0"
   },

@@ -1,26 +1,29 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import styled, { ThemeProvider } from "styled-components";
 
 import theme from "../../styles/theme";
+import { flexCenter } from "../../styles/mixin";
 import GlobalStyle from "../../styles/globalStyle";
 
-import MainPage from "../MainPage";
-import DetailsPage from "../DetailsPage";
-import BookmarkPage from "../BookmarkPage";
-import { flexCenter } from "../../styles/mixin";
+import LoadingSpinner from "../LoadingSpinner";
+const MainPage = React.lazy(() => import("../MainPage"));
+const DetailsPage = React.lazy(() => import("../DetailsPage"));
+const BookmarkPage = React.lazy(() => import("../BookmarkPage"));
 
 function App() {
   return (
     <Wrapper>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
-        <Switch>
-          <Route path="/" exact component={MainPage} />
-          <Route path="/issues" component={BookmarkPage} />
-          <Route path="/:owner/:repository/issues" component={DetailsPage} />
-          <Redirect to="/" />
-        </Switch>
+        <Suspense fallback={<LoadingSpinner />}>
+          <Switch>
+            <Route path="/" exact component={MainPage} />
+            <Route path="/issues" component={BookmarkPage} />
+            <Route path="/:owner/:repository/issues" component={DetailsPage} />
+            <Redirect to="/" />
+          </Switch>
+        </Suspense>
       </ThemeProvider>
     </Wrapper>
   );

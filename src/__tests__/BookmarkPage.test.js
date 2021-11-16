@@ -10,10 +10,10 @@ import { createMemoryHistory } from "history";
 import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
 
-import theme from "../../styles/theme";
-import BookmarkPage from "../../components/BookmarkPage";
-import IssuesList from "../../components/IssuesList";
-import issuesReducer, { resetState } from "../../store/issue/issuesSlice";
+import theme from "../styles/theme";
+import BookmarkPage from "../components/BookmarkPage";
+import IssuesList from "../components/IssuesList";
+import issuesReducer, { resetState } from "../store/issue/issuesSlice";
 
 const history = createMemoryHistory();
 

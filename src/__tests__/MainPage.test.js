@@ -3,16 +3,16 @@ import "@testing-library/jest-dom/extend-expect";
 import userEvent from "@testing-library/user-event";
 
 import { enableFetchMocks } from "jest-fetch-mock";
-import mockResponse from "../../__mock__/response.json";
+import mockResponse from "../__mock__/response.json";
 
 import React from "react";
 import { Provider } from "react-redux";
 import { ThemeProvider } from "styled-components";
 import { createMemoryHistory } from "history";
 
-import store from "../../store";
-import theme from "../../styles/theme";
-import MainPage from "../../components/MainPage";
+import store from "../store";
+import theme from "../styles/theme";
+import MainPage from "../components/MainPage";
 
 const history = createMemoryHistory();
 

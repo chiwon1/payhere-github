@@ -7,9 +7,9 @@ import { ToastContainer } from "react-toastify";
 
 import Title from "../Shared/Title";
 import Button from "../Shared/Button";
-import IssuesList from "../IssuesList";
 import Pagination from "../Pagination";
 import BookmarkButton from "../BookmarkButton";
+const IssuesList = React.lazy(() => import("../IssuesList"));
 
 import { notifyError } from "../Notification";
 import { fetchIssues, resetState } from "../../store/issue/issuesSlice";

@@ -1,17 +1,20 @@
-import React from "react";
+import React, { Suspense } from "react";
 import styled from "styled-components";
 import { flexCenter } from "../../styles/mixin";
 
 import Title from "../Shared/Title";
 import SearchBar from "../SearchBar";
-import Bookmark from "../Bookmark";
+
+const Bookmark = React.lazy(() => import("../Bookmark"));
 
 function MainPage({ history }) {
   return (
     <Wrapper>
       <MainTitle>Github Issues</MainTitle>
       <SearchBar history={history} />
-      <Bookmark history={history} />
+      <Suspense fallback={<div>loading...</div>}>
+        <Bookmark history={history} />
+      </Suspense>
     </Wrapper>
   );
 }
