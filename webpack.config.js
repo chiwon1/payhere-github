@@ -40,7 +40,6 @@ const config = {
       template: "public/index.html",
       favicon: "./public/favicon.ico",
     }),
-    new BundleAnalyzerPlugin(),
   ],
   devtool: "inline-source-map",
   devServer: {
